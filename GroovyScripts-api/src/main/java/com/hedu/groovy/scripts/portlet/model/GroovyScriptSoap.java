@@ -41,6 +41,8 @@ public class GroovyScriptSoap implements Serializable {
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setTitle(model.getTitle());
+		soapModel.setDescription(model.getDescription());
+		soapModel.setVersion(model.getVersion());
 		soapModel.setContent(model.getContent());
 
 		return soapModel;
@@ -150,6 +152,22 @@ public class GroovyScriptSoap implements Serializable {
 		_title = title;
 	}
 
+	public String getDescription() {
+		return _Description;
+	}
+
+	public void setDescription(String Description) {
+		_Description = Description;
+	}
+
+	public Double getVersion() {
+		return _version;
+	}
+
+	public void setVersion(Double version) {
+		_version = version;
+	}
+
 	public String getContent() {
 		return _content;
 	}
@@ -165,5 +183,7 @@ public class GroovyScriptSoap implements Serializable {
 	private Date _createDate;
 	private Date _modifiedDate;
 	private String _title;
+	private String _Description;
+	private Double _version;
 	private String _content;
 }

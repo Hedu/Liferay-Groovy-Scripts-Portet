@@ -177,6 +177,35 @@ public interface GroovyScriptModel extends BaseModel<GroovyScript> {
 	public void setTitle(String title);
 
 	/**
+	 * Returns the description of this groovy script.
+	 *
+	 * @return the description of this groovy script
+	 */
+	@AutoEscape
+	public String getDescription();
+
+	/**
+	 * Sets the description of this groovy script.
+	 *
+	 * @param Description the description of this groovy script
+	 */
+	public void setDescription(String Description);
+
+	/**
+	 * Returns the version of this groovy script.
+	 *
+	 * @return the version of this groovy script
+	 */
+	public Double getVersion();
+
+	/**
+	 * Sets the version of this groovy script.
+	 *
+	 * @param version the version of this groovy script
+	 */
+	public void setVersion(Double version);
+
+	/**
 	 * Returns the content of this groovy script.
 	 *
 	 * @return the content of this groovy script

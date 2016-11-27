@@ -65,6 +65,8 @@ public class GroovyScriptWrapper implements GroovyScript,
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("title", getTitle());
+		attributes.put("Description", getDescription());
+		attributes.put("version", getVersion());
 		attributes.put("content", getContent());
 
 		return attributes;
@@ -112,6 +114,18 @@ public class GroovyScriptWrapper implements GroovyScript,
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String Description = (String)attributes.get("Description");
+
+		if (Description != null) {
+			setDescription(Description);
+		}
+
+		Double version = (Double)attributes.get("version");
+
+		if (version != null) {
+			setVersion(version);
 		}
 
 		String content = (String)attributes.get("content");
@@ -171,6 +185,16 @@ public class GroovyScriptWrapper implements GroovyScript,
 		return _groovyScript.getPrimaryKeyObj();
 	}
 
+	/**
+	* Returns the version of this groovy script.
+	*
+	* @return the version of this groovy script
+	*/
+	@Override
+	public java.lang.Double getVersion() {
+		return _groovyScript.getVersion();
+	}
+
 	@Override
 	public java.lang.Object clone() {
 		return new GroovyScriptWrapper((GroovyScript)_groovyScript.clone());
@@ -184,6 +208,16 @@ public class GroovyScriptWrapper implements GroovyScript,
 	@Override
 	public java.lang.String getContent() {
 		return _groovyScript.getContent();
+	}
+
+	/**
+	* Returns the description of this groovy script.
+	*
+	* @return the description of this groovy script
+	*/
+	@Override
+	public java.lang.String getDescription() {
+		return _groovyScript.getDescription();
 	}
 
 	/**
@@ -316,6 +350,16 @@ public class GroovyScriptWrapper implements GroovyScript,
 		_groovyScript.setCreateDate(createDate);
 	}
 
+	/**
+	* Sets the description of this groovy script.
+	*
+	* @param Description the description of this groovy script
+	*/
+	@Override
+	public void setDescription(java.lang.String Description) {
+		_groovyScript.setDescription(Description);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
 		_groovyScript.setExpandoBridgeAttributes(expandoBridge);
@@ -420,6 +464,16 @@ public class GroovyScriptWrapper implements GroovyScript,
 	@Override
 	public void setUuid(java.lang.String uuid) {
 		_groovyScript.setUuid(uuid);
+	}
+
+	/**
+	* Sets the version of this groovy script.
+	*
+	* @param version the version of this groovy script
+	*/
+	@Override
+	public void setVersion(java.lang.Double version) {
+		_groovyScript.setVersion(version);
 	}
 
 	@Override

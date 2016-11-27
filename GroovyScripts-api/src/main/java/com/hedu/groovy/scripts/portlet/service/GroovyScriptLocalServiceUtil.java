@@ -106,6 +106,11 @@ public class GroovyScriptLocalServiceUtil {
 		return getService().getGroovyScript(groovyScriptId);
 	}
 
+	public static com.hedu.groovy.scripts.portlet.model.GroovyScript getLastest(
+		long scriptId) {
+		return getService().getLastest(scriptId);
+	}
+
 	/**
 	* Updates the groovy script in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

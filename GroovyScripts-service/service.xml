@@ -22,6 +22,8 @@
 		<!-- Other fields -->
 
 		<column name="title" type="String" />
+		<column name="Description" type="String" />
+		<column name="version" type="Double" />
 		<column name="content" type="String" />
 
 		<!-- Order -->

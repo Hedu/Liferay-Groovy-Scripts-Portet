@@ -103,6 +103,12 @@ public class GroovyScriptLocalServiceWrapper implements GroovyScriptLocalService
 		return _groovyScriptLocalService.getGroovyScript(groovyScriptId);
 	}
 
+	@Override
+	public com.hedu.groovy.scripts.portlet.model.GroovyScript getLastest(
+		long scriptId) {
+		return _groovyScriptLocalService.getLastest(scriptId);
+	}
+
 	/**
 	* Updates the groovy script in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

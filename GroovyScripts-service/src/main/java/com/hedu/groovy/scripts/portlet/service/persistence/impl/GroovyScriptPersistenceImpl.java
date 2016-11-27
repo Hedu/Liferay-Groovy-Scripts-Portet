@@ -1447,6 +1447,8 @@ public class GroovyScriptPersistenceImpl extends BasePersistenceImpl<GroovyScrip
 		groovyScriptImpl.setCreateDate(groovyScript.getCreateDate());
 		groovyScriptImpl.setModifiedDate(groovyScript.getModifiedDate());
 		groovyScriptImpl.setTitle(groovyScript.getTitle());
+		groovyScriptImpl.setDescription(groovyScript.getDescription());
+		groovyScriptImpl.setVersion(groovyScript.getVersion());
 		groovyScriptImpl.setContent(groovyScript.getContent());
 
 		return groovyScriptImpl;

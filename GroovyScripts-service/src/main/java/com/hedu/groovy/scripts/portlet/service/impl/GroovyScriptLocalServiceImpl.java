@@ -46,4 +46,11 @@ public class GroovyScriptLocalServiceImpl
 	public List<GroovyScript> getScriptsByScriptId(long scriptId) {
 		return groovyScriptPersistence.findByscriptId(scriptId);
 	}
+	
+	public GroovyScript getLastest(long scriptId) {
+		List<GroovyScript> scripts = getScriptsByScriptId(scriptId);
+		return scripts.stream().max(
+			(GroovyScript s1, GroovyScript s2)->
+				s1.getVersion() - s2.getVersion() < 0? -1: 1).get();
+	}
 }

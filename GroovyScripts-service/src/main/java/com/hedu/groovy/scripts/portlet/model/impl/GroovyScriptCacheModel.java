@@ -66,7 +66,7 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -82,6 +82,10 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 		sb.append(modifiedDate);
 		sb.append(", title=");
 		sb.append(title);
+		sb.append(", Description=");
+		sb.append(Description);
+		sb.append(", version=");
+		sb.append(version);
 		sb.append(", content=");
 		sb.append(content);
 		sb.append("}");
@@ -125,6 +129,15 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 			groovyScriptImpl.setTitle(title);
 		}
 
+		if (Description == null) {
+			groovyScriptImpl.setDescription(StringPool.BLANK);
+		}
+		else {
+			groovyScriptImpl.setDescription(Description);
+		}
+
+		groovyScriptImpl.setVersion(version);
+
 		if (content == null) {
 			groovyScriptImpl.setContent(StringPool.BLANK);
 		}
@@ -149,6 +162,9 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 		title = objectInput.readUTF();
+		Description = objectInput.readUTF();
+
+		version = objectInput.readDouble();
 		content = objectInput.readUTF();
 	}
 
@@ -177,6 +193,15 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 			objectOutput.writeUTF(title);
 		}
 
+		if (Description == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(Description);
+		}
+
+		objectOutput.writeDouble(version);
+
 		if (content == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -192,5 +217,7 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 	public long createDate;
 	public long modifiedDate;
 	public String title;
+	public String Description;
+	public double version;
 	public String content;
 }

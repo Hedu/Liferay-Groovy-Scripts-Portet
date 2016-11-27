@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="com.hedu.groovy.scripts.portlet.service.impl.GroovyScriptLocalServiceImpl" id="com.hedu.groovy.scripts.portlet.service.GroovyScriptLocalService" />
+	<bean class="com.hedu.groovy.scripts.portlet.service.impl.GroovyScriptServiceImpl" id="com.hedu.groovy.scripts.portlet.service.GroovyScriptService" />
+	<bean class="com.hedu.groovy.scripts.portlet.service.persistence.impl.GroovyScriptPersistenceImpl" id="com.hedu.groovy.scripts.portlet.service.persistence.GroovyScriptPersistence" parent="basePersistence" />
+</beans>

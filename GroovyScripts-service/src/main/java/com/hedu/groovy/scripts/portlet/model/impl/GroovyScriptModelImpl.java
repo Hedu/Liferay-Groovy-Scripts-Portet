@@ -78,6 +78,8 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
+			{ "Description", Types.VARCHAR },
+			{ "version", Types.DOUBLE },
 			{ "content", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -90,10 +92,12 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("Description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("version", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("content", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table GROOVY_SCRIPTS_GroovyScript (uuid_ VARCHAR(75) null,groovyScriptId LONG not null primary key,scriptId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,title VARCHAR(75) null,content VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table GROOVY_SCRIPTS_GroovyScript (uuid_ VARCHAR(75) null,groovyScriptId LONG not null primary key,scriptId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,title VARCHAR(75) null,Description VARCHAR(75) null,version DOUBLE,content VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table GROOVY_SCRIPTS_GroovyScript";
 	public static final String ORDER_BY_JPQL = " ORDER BY groovyScript.modifiedDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY GROOVY_SCRIPTS_GroovyScript.modifiedDate ASC";
@@ -133,6 +137,8 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setTitle(soapModel.getTitle());
+		model.setDescription(soapModel.getDescription());
+		model.setVersion(soapModel.getVersion());
 		model.setContent(soapModel.getContent());
 
 		return model;
@@ -205,6 +211,8 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("title", getTitle());
+		attributes.put("Description", getDescription());
+		attributes.put("version", getVersion());
 		attributes.put("content", getContent());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -255,6 +263,18 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String Description = (String)attributes.get("Description");
+
+		if (Description != null) {
+			setDescription(Description);
+		}
+
+		Double version = (Double)attributes.get("version");
+
+		if (version != null) {
+			setVersion(version);
 		}
 
 		String content = (String)attributes.get("content");
@@ -397,6 +417,33 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 
 	@JSON
 	@Override
+	public String getDescription() {
+		if (_Description == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _Description;
+		}
+	}
+
+	@Override
+	public void setDescription(String Description) {
+		_Description = Description;
+	}
+
+	@JSON
+	@Override
+	public Double getVersion() {
+		return _version;
+	}
+
+	@Override
+	public void setVersion(Double version) {
+		_version = version;
+	}
+
+	@JSON
+	@Override
 	public String getContent() {
 		if (_content == null) {
 			return StringPool.BLANK;
@@ -449,6 +496,8 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		groovyScriptImpl.setCreateDate(getCreateDate());
 		groovyScriptImpl.setModifiedDate(getModifiedDate());
 		groovyScriptImpl.setTitle(getTitle());
+		groovyScriptImpl.setDescription(getDescription());
+		groovyScriptImpl.setVersion(getVersion());
 		groovyScriptImpl.setContent(getContent());
 
 		groovyScriptImpl.resetOriginalValues();
@@ -566,6 +615,16 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 			groovyScriptCacheModel.title = null;
 		}
 
+		groovyScriptCacheModel.Description = getDescription();
+
+		String Description = groovyScriptCacheModel.Description;
+
+		if ((Description != null) && (Description.length() == 0)) {
+			groovyScriptCacheModel.Description = null;
+		}
+
+		groovyScriptCacheModel.version = getVersion();
+
 		groovyScriptCacheModel.content = getContent();
 
 		String content = groovyScriptCacheModel.content;
@@ -579,7 +638,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -595,6 +654,10 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		sb.append(getModifiedDate());
 		sb.append(", title=");
 		sb.append(getTitle());
+		sb.append(", Description=");
+		sb.append(getDescription());
+		sb.append(", version=");
+		sb.append(getVersion());
 		sb.append(", content=");
 		sb.append(getContent());
 		sb.append("}");
@@ -604,7 +667,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.hedu.groovy.scripts.portlet.model.GroovyScript");
@@ -639,6 +702,14 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>Description</column-name><column-value><![CDATA[");
+		sb.append(getDescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>version</column-name><column-value><![CDATA[");
+		sb.append(getVersion());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>content</column-name><column-value><![CDATA[");
 		sb.append(getContent());
 		sb.append("]]></column-value></column>");
@@ -663,6 +734,8 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private String _title;
+	private String _Description;
+	private Double _version;
 	private String _content;
 	private long _columnBitmask;
 	private GroovyScript _escapedModel;
