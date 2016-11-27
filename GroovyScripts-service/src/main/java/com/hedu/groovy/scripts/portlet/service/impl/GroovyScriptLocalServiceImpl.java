@@ -14,9 +14,12 @@
 
 package com.hedu.groovy.scripts.portlet.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.List;
 
+import com.hedu.groovy.scripts.portlet.model.GroovyScript;
 import com.hedu.groovy.scripts.portlet.service.base.GroovyScriptLocalServiceBaseImpl;
+
+import aQute.bnd.annotation.ProviderType;
 
 /**
  * The implementation of the groovy script local service.
@@ -40,4 +43,7 @@ public class GroovyScriptLocalServiceImpl
 	 *
 	 * Never reference this class directly. Always use {@link com.hedu.groovy.scripts.portlet.service.GroovyScriptLocalServiceUtil} to access the groovy script local service.
 	 */
+	public List<GroovyScript> getScriptsByScriptId(long scriptId) {
+		return groovyScriptPersistence.findByscriptId(scriptId);
+	}
 }
