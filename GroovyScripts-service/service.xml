@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="com.hedu.groovy.scripts.portlet">
+	<namespace>GROOVY_SCRIPTS</namespace>
+	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+	<entity local-service="true" name="GroovyScript" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="groovyScriptId" primary="true" type="long" />
+
+		<column name="scriptId" type="long" />
+		
+		<!-- Audit fields -->
+
+		<column name="userId" type="long" />
+
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="title" type="String" />
+		<column name="content" type="String" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="scriptId" return-type="Collection">
+			<finder-column name="scriptId" />
+		</finder>
+
+		<!-- References -->
+
+	</entity>
+</service-builder>

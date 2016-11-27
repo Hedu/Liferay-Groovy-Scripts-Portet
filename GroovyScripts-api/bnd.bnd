@@ -1,0 +1,7 @@
+Bundle-SymbolicName: groovyscripts-api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.hedu.groovy.scripts.portlet.exception,\
+	com.hedu.groovy.scripts.portlet.model,\
+	com.hedu.groovy.scripts.portlet.service,\
+	com.hedu.groovy.scripts.portlet.service.persistence
