@@ -237,6 +237,12 @@ public class GroovyScriptLocalServiceWrapper implements GroovyScriptLocalService
 		return _groovyScriptLocalService.getGroovyScripts(start, end);
 	}
 
+	@Override
+	public java.util.List<com.hedu.groovy.scripts.portlet.model.GroovyScript> getScriptsByScriptId(
+		long scriptId) {
+		return _groovyScriptLocalService.getScriptsByScriptId(scriptId);
+	}
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*

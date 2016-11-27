@@ -228,6 +228,11 @@ public class GroovyScriptLocalServiceUtil {
 		return getService().getGroovyScripts(start, end);
 	}
 
+	public static java.util.List<com.hedu.groovy.scripts.portlet.model.GroovyScript> getScriptsByScriptId(
+		long scriptId) {
+		return getService().getScriptsByScriptId(scriptId);
+	}
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*

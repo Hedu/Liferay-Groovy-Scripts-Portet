@@ -209,6 +209,9 @@ public interface GroovyScriptLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<GroovyScript> getGroovyScripts(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<GroovyScript> getScriptsByScriptId(long scriptId);
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
