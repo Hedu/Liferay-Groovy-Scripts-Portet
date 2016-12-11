@@ -21,6 +21,12 @@ import com.hedu.groovy.scripts.portlet.service.GroovyScriptLocalService;
 import com.hedu.groovy.scripts.portlet.service.persistence.GroovyScriptFinder;
 import com.hedu.groovy.scripts.portlet.service.persistence.GroovyScriptPersistence;
 
+import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
+import com.liferay.exportimport.kernel.lar.ManifestSummary;
+import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -30,6 +36,7 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -214,6 +221,19 @@ public abstract class GroovyScriptLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the groovy script with the matching UUID and company.
+	 *
+	 * @param uuid the groovy script's UUID
+	 * @param companyId the primary key of the company
+	 * @return the matching groovy script, or <code>null</code> if a matching groovy script could not be found
+	 */
+	@Override
+	public GroovyScript fetchGroovyScriptByUuidAndCompanyId(String uuid,
+		long companyId) {
+		return groovyScriptPersistence.fetchByUuid_C_First(uuid, companyId, null);
+	}
+
+	/**
 	 * Returns the groovy script with the primary key.
 	 *
 	 * @param groovyScriptId the primary key of the groovy script
@@ -262,6 +282,57 @@ public abstract class GroovyScriptLocalServiceBaseImpl
 		actionableDynamicQuery.setPrimaryKeyPropertyName("groovyScriptId");
 	}
 
+	@Override
+	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
+		final PortletDataContext portletDataContext) {
+		final ExportActionableDynamicQuery exportActionableDynamicQuery = new ExportActionableDynamicQuery() {
+				@Override
+				public long performCount() throws PortalException {
+					ManifestSummary manifestSummary = portletDataContext.getManifestSummary();
+
+					StagedModelType stagedModelType = getStagedModelType();
+
+					long modelAdditionCount = super.performCount();
+
+					manifestSummary.addModelAdditionCount(stagedModelType,
+						modelAdditionCount);
+
+					long modelDeletionCount = ExportImportHelperUtil.getModelDeletionCount(portletDataContext,
+							stagedModelType);
+
+					manifestSummary.addModelDeletionCount(stagedModelType,
+						modelDeletionCount);
+
+					return modelAdditionCount;
+				}
+			};
+
+		initActionableDynamicQuery(exportActionableDynamicQuery);
+
+		exportActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
+				@Override
+				public void addCriteria(DynamicQuery dynamicQuery) {
+					portletDataContext.addDateRangeCriteria(dynamicQuery,
+						"modifiedDate");
+				}
+			});
+
+		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
+
+		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<GroovyScript>() {
+				@Override
+				public void performAction(GroovyScript groovyScript)
+					throws PortalException {
+					StagedModelDataHandlerUtil.exportStagedModel(portletDataContext,
+						groovyScript);
+				}
+			});
+		exportActionableDynamicQuery.setStagedModelType(new StagedModelType(
+				PortalUtil.getClassNameId(GroovyScript.class.getName())));
+
+		return exportActionableDynamicQuery;
+	}
+
 	/**
 	 * @throws PortalException
 	 */
@@ -275,6 +346,20 @@ public abstract class GroovyScriptLocalServiceBaseImpl
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
 		return groovyScriptPersistence.findByPrimaryKey(primaryKeyObj);
+	}
+
+	/**
+	 * Returns the groovy script with the matching UUID and company.
+	 *
+	 * @param uuid the groovy script's UUID
+	 * @param companyId the primary key of the company
+	 * @return the matching groovy script
+	 * @throws PortalException if a matching groovy script could not be found
+	 */
+	@Override
+	public GroovyScript getGroovyScriptByUuidAndCompanyId(String uuid,
+		long companyId) throws PortalException {
+		return groovyScriptPersistence.findByUuid_C_First(uuid, companyId, null);
 	}
 
 	/**

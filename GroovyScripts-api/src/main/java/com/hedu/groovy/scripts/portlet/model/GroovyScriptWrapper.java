@@ -18,6 +18,8 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -61,6 +63,7 @@ public class GroovyScriptWrapper implements GroovyScript,
 		attributes.put("uuid", getUuid());
 		attributes.put("groovyScriptId", getGroovyScriptId());
 		attributes.put("scriptId", getScriptId());
+		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -90,6 +93,12 @@ public class GroovyScriptWrapper implements GroovyScript,
 
 		if (scriptId != null) {
 			setScriptId(scriptId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
 		}
 
 		Long userId = (Long)attributes.get("userId");
@@ -281,6 +290,16 @@ public class GroovyScriptWrapper implements GroovyScript,
 	}
 
 	/**
+	* Returns the company ID of this groovy script.
+	*
+	* @return the company ID of this groovy script
+	*/
+	@Override
+	public long getCompanyId() {
+		return _groovyScript.getCompanyId();
+	}
+
+	/**
 	* Returns the groovy script ID of this groovy script.
 	*
 	* @return the groovy script ID of this groovy script
@@ -328,6 +347,16 @@ public class GroovyScriptWrapper implements GroovyScript,
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_groovyScript.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this groovy script.
+	*
+	* @param companyId the company ID of this groovy script
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_groovyScript.setCompanyId(companyId);
 	}
 
 	/**
@@ -493,6 +522,11 @@ public class GroovyScriptWrapper implements GroovyScript,
 		}
 
 		return false;
+	}
+
+	@Override
+	public StagedModelType getStagedModelType() {
+		return _groovyScript.getStagedModelType();
 	}
 
 	@Override

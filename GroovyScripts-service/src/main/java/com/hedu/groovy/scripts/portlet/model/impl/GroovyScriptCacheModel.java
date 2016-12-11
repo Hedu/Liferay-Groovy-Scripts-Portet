@@ -66,7 +66,7 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -74,6 +74,8 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 		sb.append(groovyScriptId);
 		sb.append(", scriptId=");
 		sb.append(scriptId);
+		sb.append(", companyId=");
+		sb.append(companyId);
 		sb.append(", userId=");
 		sb.append(userId);
 		sb.append(", createDate=");
@@ -106,6 +108,7 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 
 		groovyScriptImpl.setGroovyScriptId(groovyScriptId);
 		groovyScriptImpl.setScriptId(scriptId);
+		groovyScriptImpl.setCompanyId(companyId);
 		groovyScriptImpl.setUserId(userId);
 
 		if (createDate == Long.MIN_VALUE) {
@@ -158,6 +161,8 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 
 		scriptId = objectInput.readLong();
 
+		companyId = objectInput.readLong();
+
 		userId = objectInput.readLong();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
@@ -181,6 +186,8 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 		objectOutput.writeLong(groovyScriptId);
 
 		objectOutput.writeLong(scriptId);
+
+		objectOutput.writeLong(companyId);
 
 		objectOutput.writeLong(userId);
 		objectOutput.writeLong(createDate);
@@ -213,6 +220,7 @@ public class GroovyScriptCacheModel implements CacheModel<GroovyScript>,
 	public String uuid;
 	public long groovyScriptId;
 	public long scriptId;
+	public long companyId;
 	public long userId;
 	public long createDate;
 	public long modifiedDate;

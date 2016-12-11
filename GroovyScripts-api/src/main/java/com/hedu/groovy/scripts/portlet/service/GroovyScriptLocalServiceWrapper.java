@@ -90,6 +90,20 @@ public class GroovyScriptLocalServiceWrapper implements GroovyScriptLocalService
 	}
 
 	/**
+	* Returns the groovy script with the matching UUID and company.
+	*
+	* @param uuid the groovy script's UUID
+	* @param companyId the primary key of the company
+	* @return the matching groovy script, or <code>null</code> if a matching groovy script could not be found
+	*/
+	@Override
+	public com.hedu.groovy.scripts.portlet.model.GroovyScript fetchGroovyScriptByUuidAndCompanyId(
+		java.lang.String uuid, long companyId) {
+		return _groovyScriptLocalService.fetchGroovyScriptByUuidAndCompanyId(uuid,
+			companyId);
+	}
+
+	/**
 	* Returns the groovy script with the primary key.
 	*
 	* @param groovyScriptId the primary key of the groovy script
@@ -101,6 +115,22 @@ public class GroovyScriptLocalServiceWrapper implements GroovyScriptLocalService
 		long groovyScriptId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _groovyScriptLocalService.getGroovyScript(groovyScriptId);
+	}
+
+	/**
+	* Returns the groovy script with the matching UUID and company.
+	*
+	* @param uuid the groovy script's UUID
+	* @param companyId the primary key of the company
+	* @return the matching groovy script
+	* @throws PortalException if a matching groovy script could not be found
+	*/
+	@Override
+	public com.hedu.groovy.scripts.portlet.model.GroovyScript getGroovyScriptByUuidAndCompanyId(
+		java.lang.String uuid, long companyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _groovyScriptLocalService.getGroovyScriptByUuidAndCompanyId(uuid,
+			companyId);
 	}
 
 	@Override
@@ -129,6 +159,12 @@ public class GroovyScriptLocalServiceWrapper implements GroovyScriptLocalService
 	@Override
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return _groovyScriptLocalService.dynamicQuery();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(
+		com.liferay.exportimport.kernel.lar.PortletDataContext portletDataContext) {
+		return _groovyScriptLocalService.getExportActionableDynamicQuery(portletDataContext);
 	}
 
 	@Override

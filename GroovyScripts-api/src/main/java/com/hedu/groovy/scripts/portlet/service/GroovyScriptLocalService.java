@@ -18,8 +18,11 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.hedu.groovy.scripts.portlet.model.GroovyScript;
 
+import com.liferay.exportimport.kernel.lar.PortletDataContext;
+
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -102,6 +105,17 @@ public interface GroovyScriptLocalService extends BaseLocalService,
 	public GroovyScript fetchGroovyScript(long groovyScriptId);
 
 	/**
+	* Returns the groovy script with the matching UUID and company.
+	*
+	* @param uuid the groovy script's UUID
+	* @param companyId the primary key of the company
+	* @return the matching groovy script, or <code>null</code> if a matching groovy script could not be found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public GroovyScript fetchGroovyScriptByUuidAndCompanyId(
+		java.lang.String uuid, long companyId);
+
+	/**
 	* Returns the groovy script with the primary key.
 	*
 	* @param groovyScriptId the primary key of the groovy script
@@ -111,6 +125,18 @@ public interface GroovyScriptLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public GroovyScript getGroovyScript(long groovyScriptId)
 		throws PortalException;
+
+	/**
+	* Returns the groovy script with the matching UUID and company.
+	*
+	* @param uuid the groovy script's UUID
+	* @param companyId the primary key of the company
+	* @return the matching groovy script
+	* @throws PortalException if a matching groovy script could not be found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public GroovyScript getGroovyScriptByUuidAndCompanyId(
+		java.lang.String uuid, long companyId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public GroovyScript getLatest(long scriptId);
@@ -128,6 +154,10 @@ public interface GroovyScriptLocalService extends BaseLocalService,
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	public DynamicQuery dynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
+		PortletDataContext portletDataContext);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();

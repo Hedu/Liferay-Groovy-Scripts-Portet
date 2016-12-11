@@ -94,6 +94,18 @@ public class GroovyScriptLocalServiceUtil {
 	}
 
 	/**
+	* Returns the groovy script with the matching UUID and company.
+	*
+	* @param uuid the groovy script's UUID
+	* @param companyId the primary key of the company
+	* @return the matching groovy script, or <code>null</code> if a matching groovy script could not be found
+	*/
+	public static com.hedu.groovy.scripts.portlet.model.GroovyScript fetchGroovyScriptByUuidAndCompanyId(
+		java.lang.String uuid, long companyId) {
+		return getService().fetchGroovyScriptByUuidAndCompanyId(uuid, companyId);
+	}
+
+	/**
 	* Returns the groovy script with the primary key.
 	*
 	* @param groovyScriptId the primary key of the groovy script
@@ -104,6 +116,20 @@ public class GroovyScriptLocalServiceUtil {
 		long groovyScriptId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getGroovyScript(groovyScriptId);
+	}
+
+	/**
+	* Returns the groovy script with the matching UUID and company.
+	*
+	* @param uuid the groovy script's UUID
+	* @param companyId the primary key of the company
+	* @return the matching groovy script
+	* @throws PortalException if a matching groovy script could not be found
+	*/
+	public static com.hedu.groovy.scripts.portlet.model.GroovyScript getGroovyScriptByUuidAndCompanyId(
+		java.lang.String uuid, long companyId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getGroovyScriptByUuidAndCompanyId(uuid, companyId);
 	}
 
 	public static com.hedu.groovy.scripts.portlet.model.GroovyScript getLatest(
@@ -128,6 +154,11 @@ public class GroovyScriptLocalServiceUtil {
 
 	public static com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
+	}
+
+	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(
+		com.liferay.exportimport.kernel.lar.PortletDataContext portletDataContext) {
+		return getService().getExportActionableDynamicQuery(portletDataContext);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {

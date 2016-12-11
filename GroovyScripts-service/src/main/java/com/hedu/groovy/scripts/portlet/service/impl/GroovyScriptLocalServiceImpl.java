@@ -56,6 +56,7 @@ public class GroovyScriptLocalServiceImpl
 	}
 	
 	public List<GroovyScript> getLatest(int begin, int end) {
-		return getGroovyScriptFinder().findLatest(begin, end); 
+		//custom query is not working. See https://issues.liferay.com/browse/LPS-67868
+		return getGroovyScriptFinder().findLatest(begin, end);
 	}
 }

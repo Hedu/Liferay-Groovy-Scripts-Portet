@@ -1,5 +1,6 @@
 <%@ include file="/init.jsp" %>
 <%@ page import="com.hedu.groovy.scripts.portlet.service.GroovyScriptLocalServiceUtil"  %>
+<%@ page import="com.hedu.groovy.scripts.portlet.search.SearchUtil"  %>
 <p>
 	<b><liferay-ui:message key="groovyscripts_web_GroovyscriptsWebmvcportlet.caption"/></b>
 </p>
@@ -9,7 +10,7 @@
 </liferay-portlet:renderURL>
 
 <liferay-ui:search-container delta="2" headerNames="title, description, version" emptyResultsMessage="no-scripts-saved" iteratorURL="<%=iteratorURL%>" total="<%=GroovyScriptLocalServiceUtil.getGroovyScriptsCount() %>">
-    <liferay-ui:search-container-results  results="<%= GroovyScriptLocalServiceUtil.getLatest(searchContainer.getStart(), searchContainer.getEnd()) %>" />
+    <liferay-ui:search-container-results  results="<%= SearchUtil.getLatest(request, searchContainer.getStart(), searchContainer.getEnd()) %>" />
     <liferay-ui:search-container-row className="com.hedu.groovy.scripts.portlet.model.GroovyScript" keyProperty="groovyScriptId" modelVar="script">
         <liferay-ui:search-container-column-text name="Title" value="${script.title}" />
         <liferay-ui:search-container-column-text name="Version" value="${script.description}" />
