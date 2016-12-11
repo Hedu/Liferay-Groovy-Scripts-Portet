@@ -10,3 +10,5 @@
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<%@ page import="com.hedu.groovy.scripts.portlet.constants.GroovyscriptsWebpanelappPortletKeys"  %>

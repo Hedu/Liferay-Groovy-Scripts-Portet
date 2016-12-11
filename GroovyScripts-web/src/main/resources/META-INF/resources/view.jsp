@@ -18,3 +18,10 @@
     </liferay-ui:search-container-row>
     <liferay-ui:search-iterator />
 </liferay-ui:search-container>
+
+<liferay-portlet:renderURL varImpl="editEntryURL">
+    <portlet:param name="mvcRenderCommandName" value="<%=GroovyscriptsWebpanelappPortletKeys.EDIT_GS_RENDER_COMMAND %>" />
+    <%-- portlet:param name="entryId" value="<%= String.valueOf(entry.getEntryId()) %>" /--%>
+</liferay-portlet:renderURL>
+
+<a href="<%=editEntryURL.toString() %>">add</a>
