@@ -28,7 +28,7 @@ public class EditGroovyScript implements MVCRenderCommand {
 		
 		long scriptId = ParamUtil.get(renderRequest, "scriptId", 0L);
 		if (scriptId != 0L) {
-			GroovyScript lastest = GroovyScriptLocalServiceUtil.getLastest(scriptId);
+			GroovyScript lastest = GroovyScriptLocalServiceUtil.getLatest(scriptId);
 			renderRequest.setAttribute("script", lastest);
 		}
 		return "/edit.jsp";

@@ -53,7 +53,7 @@ public class SaveGroovyScript extends BaseMVCActionCommand {
 		Date now = new Date();
 		long groovyScriptId = CounterLocalServiceUtil.increment(GroovyScript.class.getName());
 		if (scriptId != 0L) {
-			script = GroovyScriptLocalServiceUtil.getLastest(scriptId);
+			script = GroovyScriptLocalServiceUtil.getLatest(scriptId);
 			script.setGroovyScriptId(groovyScriptId);
 			script.setVersion(script.getVersion() + 0.1);
 		}
