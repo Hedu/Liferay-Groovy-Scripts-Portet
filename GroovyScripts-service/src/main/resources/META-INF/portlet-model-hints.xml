@@ -5,6 +5,7 @@
 		<field name="uuid" type="String" />
 		<field name="groovyScriptId" type="long" />
 		<field name="scriptId" type="long" />
+		<field name="companyId" type="long" />
 		<field name="userId" type="long" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />

@@ -23,6 +23,8 @@ import com.hedu.groovy.scripts.portlet.model.GroovyScriptSoap;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
+import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -33,6 +35,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -74,6 +77,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 			{ "uuid_", Types.VARCHAR },
 			{ "groovyScriptId", Types.BIGINT },
 			{ "scriptId", Types.BIGINT },
+			{ "companyId", Types.BIGINT },
 			{ "userId", Types.BIGINT },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
@@ -88,6 +92,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("groovyScriptId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("scriptId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
@@ -97,7 +102,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		TABLE_COLUMNS_MAP.put("content", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table GS_GroovyScript (uuid_ VARCHAR(75) null,groovyScriptId LONG not null primary key,scriptId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,title VARCHAR(255) null,description VARCHAR(75) null,version DOUBLE,content STRING null)";
+	public static final String TABLE_SQL_CREATE = "create table GS_GroovyScript (uuid_ VARCHAR(75) null,groovyScriptId LONG not null primary key,scriptId LONG,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,title VARCHAR(255) null,description VARCHAR(75) null,version DOUBLE,content STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table GS_GroovyScript";
 	public static final String ORDER_BY_JPQL = " ORDER BY groovyScript.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY GS_GroovyScript.modifiedDate DESC";
@@ -113,9 +118,10 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.hedu.groovy.scripts.portlet.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.com.hedu.groovy.scripts.portlet.model.GroovyScript"),
 			true);
-	public static final long SCRIPTID_COLUMN_BITMASK = 1L;
-	public static final long UUID_COLUMN_BITMASK = 2L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 4L;
+	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long SCRIPTID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -133,6 +139,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		model.setUuid(soapModel.getUuid());
 		model.setGroovyScriptId(soapModel.getGroovyScriptId());
 		model.setScriptId(soapModel.getScriptId());
+		model.setCompanyId(soapModel.getCompanyId());
 		model.setUserId(soapModel.getUserId());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
@@ -207,6 +214,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		attributes.put("uuid", getUuid());
 		attributes.put("groovyScriptId", getGroovyScriptId());
 		attributes.put("scriptId", getScriptId());
+		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -239,6 +247,12 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 
 		if (scriptId != null) {
 			setScriptId(scriptId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
 		}
 
 		Long userId = (Long)attributes.get("userId");
@@ -340,6 +354,29 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 
 	public long getOriginalScriptId() {
 		return _originalScriptId;
+	}
+
+	@JSON
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
+		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
 	}
 
 	@JSON
@@ -458,13 +495,19 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		_content = content;
 	}
 
+	@Override
+	public StagedModelType getStagedModelType() {
+		return new StagedModelType(PortalUtil.getClassNameId(
+				GroovyScript.class.getName()));
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			GroovyScript.class.getName(), getPrimaryKey());
 	}
 
@@ -492,6 +535,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		groovyScriptImpl.setUuid(getUuid());
 		groovyScriptImpl.setGroovyScriptId(getGroovyScriptId());
 		groovyScriptImpl.setScriptId(getScriptId());
+		groovyScriptImpl.setCompanyId(getCompanyId());
 		groovyScriptImpl.setUserId(getUserId());
 		groovyScriptImpl.setCreateDate(getCreateDate());
 		groovyScriptImpl.setModifiedDate(getModifiedDate());
@@ -568,6 +612,10 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 
 		groovyScriptModelImpl._setOriginalScriptId = false;
 
+		groovyScriptModelImpl._originalCompanyId = groovyScriptModelImpl._companyId;
+
+		groovyScriptModelImpl._setOriginalCompanyId = false;
+
 		groovyScriptModelImpl._setModifiedDate = false;
 
 		groovyScriptModelImpl._columnBitmask = 0;
@@ -588,6 +636,8 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		groovyScriptCacheModel.groovyScriptId = getGroovyScriptId();
 
 		groovyScriptCacheModel.scriptId = getScriptId();
+
+		groovyScriptCacheModel.companyId = getCompanyId();
 
 		groovyScriptCacheModel.userId = getUserId();
 
@@ -640,7 +690,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -648,6 +698,8 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		sb.append(getGroovyScriptId());
 		sb.append(", scriptId=");
 		sb.append(getScriptId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
 		sb.append(", userId=");
 		sb.append(getUserId());
 		sb.append(", createDate=");
@@ -669,7 +721,7 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("com.hedu.groovy.scripts.portlet.model.GroovyScript");
@@ -686,6 +738,10 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 		sb.append(
 			"<column><column-name>scriptId</column-name><column-value><![CDATA[");
 		sb.append(getScriptId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>userId</column-name><column-value><![CDATA[");
@@ -731,6 +787,9 @@ public class GroovyScriptModelImpl extends BaseModelImpl<GroovyScript>
 	private long _scriptId;
 	private long _originalScriptId;
 	private boolean _setOriginalScriptId;
+	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private Date _createDate;
 	private Date _modifiedDate;

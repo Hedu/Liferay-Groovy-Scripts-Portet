@@ -37,6 +37,7 @@ public class GroovyScriptSoap implements Serializable {
 		soapModel.setUuid(model.getUuid());
 		soapModel.setGroovyScriptId(model.getGroovyScriptId());
 		soapModel.setScriptId(model.getScriptId());
+		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -120,6 +121,14 @@ public class GroovyScriptSoap implements Serializable {
 		_scriptId = scriptId;
 	}
 
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
 	public long getUserId() {
 		return _userId;
 	}
@@ -179,6 +188,7 @@ public class GroovyScriptSoap implements Serializable {
 	private String _uuid;
 	private long _groovyScriptId;
 	private long _scriptId;
+	private long _companyId;
 	private long _userId;
 	private Date _createDate;
 	private Date _modifiedDate;

@@ -21,6 +21,8 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.ShardedModel;
+import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -41,7 +43,8 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface GroovyScriptModel extends BaseModel<GroovyScript> {
+public interface GroovyScriptModel extends BaseModel<GroovyScript>, ShardedModel,
+	StagedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -68,6 +71,7 @@ public interface GroovyScriptModel extends BaseModel<GroovyScript> {
 	 * @return the uuid of this groovy script
 	 */
 	@AutoEscape
+	@Override
 	public String getUuid();
 
 	/**
@@ -75,6 +79,7 @@ public interface GroovyScriptModel extends BaseModel<GroovyScript> {
 	 *
 	 * @param uuid the uuid of this groovy script
 	 */
+	@Override
 	public void setUuid(String uuid);
 
 	/**
@@ -104,6 +109,22 @@ public interface GroovyScriptModel extends BaseModel<GroovyScript> {
 	 * @param scriptId the script ID of this groovy script
 	 */
 	public void setScriptId(long scriptId);
+
+	/**
+	 * Returns the company ID of this groovy script.
+	 *
+	 * @return the company ID of this groovy script
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this groovy script.
+	 *
+	 * @param companyId the company ID of this groovy script
+	 */
+	@Override
+	public void setCompanyId(long companyId);
 
 	/**
 	 * Returns the user ID of this groovy script.
@@ -138,6 +159,7 @@ public interface GroovyScriptModel extends BaseModel<GroovyScript> {
 	 *
 	 * @return the create date of this groovy script
 	 */
+	@Override
 	public Date getCreateDate();
 
 	/**
@@ -145,6 +167,7 @@ public interface GroovyScriptModel extends BaseModel<GroovyScript> {
 	 *
 	 * @param createDate the create date of this groovy script
 	 */
+	@Override
 	public void setCreateDate(Date createDate);
 
 	/**
@@ -152,6 +175,7 @@ public interface GroovyScriptModel extends BaseModel<GroovyScript> {
 	 *
 	 * @return the modified date of this groovy script
 	 */
+	@Override
 	public Date getModifiedDate();
 
 	/**
@@ -159,6 +183,7 @@ public interface GroovyScriptModel extends BaseModel<GroovyScript> {
 	 *
 	 * @param modifiedDate the modified date of this groovy script
 	 */
+	@Override
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
