@@ -1,9 +1,12 @@
 package com.hedu.groovy.scripts.portlet.search;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
+
+import org.osgi.service.component.annotations.Component;
 
 import com.hedu.groovy.scripts.portlet.model.GroovyScript;
 import com.hedu.groovy.scripts.portlet.service.GroovyScriptLocalServiceUtil;
@@ -16,9 +19,11 @@ import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
 
+@Component(immediate = true, service = Indexer.class)
 public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
 
 	
@@ -46,6 +51,13 @@ public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
 	@Override
 	protected void doDelete(GroovyScript groovyScript) throws Exception {
 		deleteDocument(groovyScript.getCompanyId(), groovyScript.getGroovyScriptId());
+		
+		GroovyScript latestScript = 
+				GroovyScriptLocalServiceUtil.getLatest(groovyScript.getScriptId());
+		
+		if (latestScript != null) {
+			doReindex(latestScript);
+		}
 	}
 
 	@Override
@@ -64,6 +76,16 @@ public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
 		
 		document.addDate(Field.CREATE_DATE, groovyScript.getCreateDate());
 		document.addDate(Field.MODIFIED_DATE, groovyScript.getModifiedDate());
+		
+		GroovyScript latestScript = 
+				GroovyScriptLocalServiceUtil.getLatest(groovyScript.getScriptId());
+		
+		if (latestScript != null && latestScript.getGroovyScriptId() == groovyScript.getGroovyScriptId()) {
+			document.addText("latest", "true");
+		}
+		else {
+			document.addText("latest", "false");
+		}
 		
 		return document;
 	}
@@ -89,15 +111,20 @@ public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
 	protected void doReindex(String[] ids) throws Exception {
 		long companyId = GetterUtil.getLong(ids[0]);
 		
+		reindexGroovyScripts(companyId);
 	}
 
 	@Override
 	protected void doReindex(GroovyScript groovyScript) throws Exception {
-		Document document = getDocument(groovyScript);
+		List<GroovyScript> scripts = GroovyScriptLocalServiceUtil.getScriptsByScriptId(groovyScript.getScriptId());
 		
-		IndexWriterHelperUtil.updateDocument(
+		for (GroovyScript script : scripts) {
+			Document document = getDocument(script);
+		
+			IndexWriterHelperUtil.updateDocument(
 				getSearchEngineId(), groovyScript.getCompanyId(), document,
 				isCommitImmediately());
+		}
 		
 	}
 	
