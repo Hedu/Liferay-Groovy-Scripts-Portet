@@ -104,9 +104,9 @@ public class GroovyScriptLocalServiceWrapper implements GroovyScriptLocalService
 	}
 
 	@Override
-	public com.hedu.groovy.scripts.portlet.model.GroovyScript getLastest(
+	public com.hedu.groovy.scripts.portlet.model.GroovyScript getLatest(
 		long scriptId) {
-		return _groovyScriptLocalService.getLastest(scriptId);
+		return _groovyScriptLocalService.getLatest(scriptId);
 	}
 
 	/**
@@ -241,6 +241,12 @@ public class GroovyScriptLocalServiceWrapper implements GroovyScriptLocalService
 	public java.util.List<com.hedu.groovy.scripts.portlet.model.GroovyScript> getGroovyScripts(
 		int start, int end) {
 		return _groovyScriptLocalService.getGroovyScripts(start, end);
+	}
+
+	@Override
+	public java.util.List<com.hedu.groovy.scripts.portlet.model.GroovyScript> getLatest(
+		int begin, int end) {
+		return _groovyScriptLocalService.getLatest(begin, end);
 	}
 
 	@Override

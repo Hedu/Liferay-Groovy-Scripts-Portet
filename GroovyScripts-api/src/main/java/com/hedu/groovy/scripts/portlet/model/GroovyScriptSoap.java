@@ -153,11 +153,11 @@ public class GroovyScriptSoap implements Serializable {
 	}
 
 	public String getDescription() {
-		return _Description;
+		return _description;
 	}
 
-	public void setDescription(String Description) {
-		_Description = Description;
+	public void setDescription(String description) {
+		_description = description;
 	}
 
 	public Double getVersion() {
@@ -183,7 +183,7 @@ public class GroovyScriptSoap implements Serializable {
 	private Date _createDate;
 	private Date _modifiedDate;
 	private String _title;
-	private String _Description;
+	private String _description;
 	private Double _version;
 	private String _content;
 }

@@ -106,9 +106,9 @@ public class GroovyScriptLocalServiceUtil {
 		return getService().getGroovyScript(groovyScriptId);
 	}
 
-	public static com.hedu.groovy.scripts.portlet.model.GroovyScript getLastest(
+	public static com.hedu.groovy.scripts.portlet.model.GroovyScript getLatest(
 		long scriptId) {
-		return getService().getLastest(scriptId);
+		return getService().getLatest(scriptId);
 	}
 
 	/**
@@ -231,6 +231,11 @@ public class GroovyScriptLocalServiceUtil {
 	public static java.util.List<com.hedu.groovy.scripts.portlet.model.GroovyScript> getGroovyScripts(
 		int start, int end) {
 		return getService().getGroovyScripts(start, end);
+	}
+
+	public static java.util.List<com.hedu.groovy.scripts.portlet.model.GroovyScript> getLatest(
+		int begin, int end) {
+		return getService().getLatest(begin, end);
 	}
 
 	public static java.util.List<com.hedu.groovy.scripts.portlet.model.GroovyScript> getScriptsByScriptId(

@@ -4,4 +4,5 @@
 	<bean class="com.hedu.groovy.scripts.portlet.service.impl.GroovyScriptLocalServiceImpl" id="com.hedu.groovy.scripts.portlet.service.GroovyScriptLocalService" />
 	<bean class="com.hedu.groovy.scripts.portlet.service.impl.GroovyScriptServiceImpl" id="com.hedu.groovy.scripts.portlet.service.GroovyScriptService" />
 	<bean class="com.hedu.groovy.scripts.portlet.service.persistence.impl.GroovyScriptPersistenceImpl" id="com.hedu.groovy.scripts.portlet.service.persistence.GroovyScriptPersistence" parent="basePersistence" />
+	<bean class="com.hedu.groovy.scripts.portlet.service.persistence.impl.GroovyScriptFinderImpl" id="com.hedu.groovy.scripts.portlet.service.persistence.GroovyScriptFinder" parent="basePersistence" />
 </beans>

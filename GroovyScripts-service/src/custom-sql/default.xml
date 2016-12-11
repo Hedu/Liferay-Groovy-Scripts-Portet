@@ -1,0 +1,17 @@
+<custom-sql>
+    <sql id="com.hedu.groovy.scripts.portlet.service.persistence.GroovyScriptFinder.findLatest">
+    SELECT DISTINCT GS_GroovyScript.* 
+    	FROM 
+    		(SELECT
+ 				GS_GroovyScript.scriptId, MAX(version) AS version
+			FROM
+				GS_GroovyScript
+			GROUP BY
+				GS_GroovyScript.scriptId
+			)TEMP_TABLE
+		INNER JOIN
+			GROOVY_SCRIPTS_GroovyScript ON
+				(TEMP_TABLE.scriptId = GS_GroovyScript.scriptId) AND
+				(TEMP_TABLE.version = GS_GroovyScript.version)
+    </sql>
+</custom-sql>

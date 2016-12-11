@@ -113,7 +113,7 @@ public interface GroovyScriptLocalService extends BaseLocalService,
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public GroovyScript getLastest(long scriptId);
+	public GroovyScript getLatest(long scriptId);
 
 	/**
 	* Updates the groovy script in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -211,6 +211,9 @@ public interface GroovyScriptLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<GroovyScript> getGroovyScripts(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<GroovyScript> getLatest(int begin, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<GroovyScript> getScriptsByScriptId(long scriptId);

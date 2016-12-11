@@ -65,7 +65,7 @@ public class GroovyScriptWrapper implements GroovyScript,
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("title", getTitle());
-		attributes.put("Description", getDescription());
+		attributes.put("description", getDescription());
 		attributes.put("version", getVersion());
 		attributes.put("content", getContent());
 
@@ -116,10 +116,10 @@ public class GroovyScriptWrapper implements GroovyScript,
 			setTitle(title);
 		}
 
-		String Description = (String)attributes.get("Description");
+		String description = (String)attributes.get("description");
 
-		if (Description != null) {
-			setDescription(Description);
+		if (description != null) {
+			setDescription(description);
 		}
 
 		Double version = (Double)attributes.get("version");
@@ -353,11 +353,11 @@ public class GroovyScriptWrapper implements GroovyScript,
 	/**
 	* Sets the description of this groovy script.
 	*
-	* @param Description the description of this groovy script
+	* @param description the description of this groovy script
 	*/
 	@Override
-	public void setDescription(java.lang.String Description) {
-		_groovyScript.setDescription(Description);
+	public void setDescription(java.lang.String description) {
+		_groovyScript.setDescription(description);
 	}
 
 	@Override

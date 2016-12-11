@@ -18,6 +18,7 @@ import java.util.List;
 
 import com.hedu.groovy.scripts.portlet.model.GroovyScript;
 import com.hedu.groovy.scripts.portlet.service.base.GroovyScriptLocalServiceBaseImpl;
+import com.hedu.groovy.scripts.portlet.service.persistence.GroovyScriptFinder;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -47,10 +48,14 @@ public class GroovyScriptLocalServiceImpl
 		return groovyScriptPersistence.findByscriptId(scriptId);
 	}
 	
-	public GroovyScript getLastest(long scriptId) {
+	public GroovyScript getLatest(long scriptId) {
 		List<GroovyScript> scripts = getScriptsByScriptId(scriptId);
 		return scripts.stream().max(
 			(GroovyScript s1, GroovyScript s2)->
 				s1.getVersion() - s2.getVersion() < 0? -1: 1).get();
+	}
+	
+	public List<GroovyScript> getLatest(int begin, int end) {
+		return getGroovyScriptFinder().findLatest(begin, end); 
 	}
 }

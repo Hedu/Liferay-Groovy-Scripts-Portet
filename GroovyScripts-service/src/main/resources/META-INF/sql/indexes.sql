@@ -1,2 +1,2 @@
-create index IX_8CF207A1 on GROOVY_SCRIPTS_GroovyScript (scriptId);
-create index IX_B44D982D on GROOVY_SCRIPTS_GroovyScript (uuid_[$COLUMN_LENGTH:75$]);
+create index IX_66E7DA0C on GS_GroovyScript (scriptId);
+create index IX_2407D5A2 on GS_GroovyScript (uuid_[$COLUMN_LENGTH:75$]);

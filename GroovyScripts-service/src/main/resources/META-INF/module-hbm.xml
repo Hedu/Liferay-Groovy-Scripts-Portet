@@ -3,7 +3,7 @@
 
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="com.hedu.groovy.scripts.portlet.model.GroovyScript" />
-	<class name="com.hedu.groovy.scripts.portlet.model.impl.GroovyScriptImpl" table="GROOVY_SCRIPTS_GroovyScript">
+	<class name="com.hedu.groovy.scripts.portlet.model.impl.GroovyScriptImpl" table="GS_GroovyScript">
 		<id name="groovyScriptId" type="long">
 			<generator class="assigned" />
 		</id>
@@ -13,7 +13,7 @@
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="Description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="version" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>

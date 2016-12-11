@@ -16,6 +16,7 @@ package com.hedu.groovy.scripts.portlet.service.base;
 
 import com.hedu.groovy.scripts.portlet.model.GroovyScript;
 import com.hedu.groovy.scripts.portlet.service.GroovyScriptService;
+import com.hedu.groovy.scripts.portlet.service.persistence.GroovyScriptFinder;
 import com.hedu.groovy.scripts.portlet.service.persistence.GroovyScriptPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
@@ -107,6 +108,24 @@ public abstract class GroovyScriptServiceBaseImpl extends BaseServiceImpl
 	public void setGroovyScriptPersistence(
 		GroovyScriptPersistence groovyScriptPersistence) {
 		this.groovyScriptPersistence = groovyScriptPersistence;
+	}
+
+	/**
+	 * Returns the groovy script finder.
+	 *
+	 * @return the groovy script finder
+	 */
+	public GroovyScriptFinder getGroovyScriptFinder() {
+		return groovyScriptFinder;
+	}
+
+	/**
+	 * Sets the groovy script finder.
+	 *
+	 * @param groovyScriptFinder the groovy script finder
+	 */
+	public void setGroovyScriptFinder(GroovyScriptFinder groovyScriptFinder) {
+		this.groovyScriptFinder = groovyScriptFinder;
 	}
 
 	/**
@@ -314,6 +333,8 @@ public abstract class GroovyScriptServiceBaseImpl extends BaseServiceImpl
 	protected GroovyScriptService groovyScriptService;
 	@BeanReference(type = GroovyScriptPersistence.class)
 	protected GroovyScriptPersistence groovyScriptPersistence;
+	@BeanReference(type = GroovyScriptFinder.class)
+	protected GroovyScriptFinder groovyScriptFinder;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
