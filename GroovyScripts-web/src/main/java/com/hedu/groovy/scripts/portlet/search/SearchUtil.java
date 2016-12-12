@@ -38,7 +38,7 @@ public class SearchUtil {
 
 		searchContext.setStart(start);
 		searchContext.setEnd(end);
-		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
+		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, Sort.LONG_TYPE, true));
 
 		Indexer<?> indexer = IndexerRegistryUtil.getIndexer(GroovyScript.class);
 
@@ -48,7 +48,7 @@ public class SearchUtil {
 		
 			searchQuery.addRequiredTerm(Field.ENTRY_CLASS_NAME, GroovyScript.class.getName()); 
 			searchQuery.addRequiredTerm("latest", "true");
-			fullQuery.add(searchQuery, BooleanClauseOccur.MUST); 
+			fullQuery.add(searchQuery, BooleanClauseOccur.MUST);
 		 
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, fullQuery);
 			
