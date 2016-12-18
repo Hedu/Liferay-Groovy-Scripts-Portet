@@ -12,3 +12,5 @@
 <portlet:defineObjects />
 
 <%@ page import="com.hedu.groovy.scripts.portlet.constants.GroovyscriptsWebpanelappPortletKeys"  %>
+<%@ page import="javax.portlet.PortletURL" %>
+<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
