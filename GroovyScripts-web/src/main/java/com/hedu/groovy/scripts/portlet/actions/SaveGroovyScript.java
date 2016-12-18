@@ -1,5 +1,9 @@
 package com.hedu.groovy.scripts.portlet.actions;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.portlet.ActionRequest;
@@ -55,7 +59,7 @@ public class SaveGroovyScript extends BaseMVCActionCommand {
 		if (scriptId != 0L) {
 			script = GroovyScriptLocalServiceUtil.getLatest(scriptId);
 			script.setGroovyScriptId(groovyScriptId);
-			script.setVersion(script.getVersion() + 0.1);
+			script.setVersion(getNextVersion(script));
 		}
 		else {
 			script = GroovyScriptLocalServiceUtil.createGroovyScript(groovyScriptId);
@@ -73,6 +77,21 @@ public class SaveGroovyScript extends BaseMVCActionCommand {
 		script.setModifiedDate(now);
 		
 		GroovyScriptLocalServiceUtil.addGroovyScript(script);
+		if (_log.isDebugEnabled()) {
+			_log.debug("Updated script: " + script);
+		}
+	}
+
+	private Double getNextVersion(GroovyScript script) {
+		DecimalFormat df = new DecimalFormat("#.#");
+		df.setRoundingMode(RoundingMode.HALF_EVEN);
+		try {
+			return df.parse(
+						df.format(
+							script.getVersion() + 0.1)).doubleValue();
+		} catch (ParseException pe) {
+			return script.getVersion() + 0.1;
+		}
 	}
 
 }
