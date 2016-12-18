@@ -80,7 +80,7 @@ public class SaveGroovyScript extends BaseMVCActionCommand {
 		if (_log.isDebugEnabled()) {
 			_log.debug("Updated script: " + script);
 		}
-		Thread.sleep(1000L);
+		//Thread.sleep(1000L);
 	}
 
 	private Double getNextVersion(GroovyScript script) {
