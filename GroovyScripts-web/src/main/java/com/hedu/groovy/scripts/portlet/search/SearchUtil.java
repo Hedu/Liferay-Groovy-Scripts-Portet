@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 
 public class SearchUtil {
 
@@ -31,13 +32,11 @@ public class SearchUtil {
 	public static List<GroovyScript> getLatest(HttpServletRequest httpRequest, int start, int end) {
 		
 		List<GroovyScript> scripts = new ArrayList<>();
-		SearchContext searchContext =
-				SearchContextFactory.getInstance(httpRequest); 
 
-		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, Sort.LONG_TYPE, true));
-		searchContext.setStart(start);
-		searchContext.setEnd(end);
-		
+		SearchContext searchContext = prepareSearchContext(
+				httpRequest, start, end, 
+				new Sort(Field.MODIFIED_DATE, Sort.LONG_TYPE, true));
+
 		BooleanQuery fullQuery = prepareListQuery(searchContext);
 		try {
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, fullQuery);
@@ -69,9 +68,8 @@ public class SearchUtil {
 	}
 
 	public static int getGroovyScriptsCount(HttpServletRequest httpRequest) {
-		SearchContext searchContext =
-				SearchContextFactory.getInstance(httpRequest);
 		
+		SearchContext searchContext = prepareSearchContext(httpRequest);
 		BooleanQuery fullQuery = prepareListQuery(searchContext);
 		try {
 			int count = (int)IndexSearcherHelperUtil.searchCount(searchContext, fullQuery);
@@ -95,6 +93,7 @@ public class SearchUtil {
 
 			searchQuery.addRequiredTerm(Field.ENTRY_CLASS_NAME, GroovyScript.class.getName());
 			searchQuery.addRequiredTerm("latest", "true");
+
 			fullQuery.add(searchQuery, BooleanClauseOccur.MUST);
 		}
 		catch (ParseException pe) {
@@ -103,5 +102,25 @@ public class SearchUtil {
 			_log.error("Problem creating the query", se);
 		}
 		return fullQuery;
+	}
+
+	private static SearchContext prepareSearchContext(HttpServletRequest httpRequest, int start, int end, Sort sort) {
+		SearchContext searchContext = prepareSearchContext(httpRequest);
+		searchContext.setStart(start);
+		searchContext.setEnd(end);
+		if (sort != null) {
+			searchContext.setSorts(sort);
+		}
+		return searchContext;
+	}
+
+	private static SearchContext prepareSearchContext(HttpServletRequest httpRequest) {
+		SearchContext searchContext =
+				SearchContextFactory.getInstance(httpRequest);
+		String keywords = ParamUtil.get(httpRequest, "keywords", "");
+		if (!"".equals(keywords)) {
+			searchContext.setKeywords(keywords);
+		}
+		return searchContext;
 	}
 }
