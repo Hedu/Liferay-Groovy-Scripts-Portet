@@ -2,7 +2,18 @@
 <%@ include file="/init.jsp" %>
 <%@ page import="com.hedu.groovy.scripts.portlet.service.GroovyScriptLocalServiceUtil"  %>
 
-<% GroovyScript script = (GroovyScript)request.getAttribute("script"); %>
+<%
+GroovyScript script = (GroovyScript)request.getAttribute("script");
+
+String redirect = ParamUtil.getString(request, "redirect");
+
+portletDisplay.setShowBackIcon(true);
+portletDisplay.setURLBack(redirect);
+
+renderResponse.setTitle((script != null) ? script.getTitle() :
+//LanguageUtil.get(request, "new-blog-entry"));
+"Nuevo script");
+%>
 
 <liferay-portlet:actionURL
  name="<%=GroovyscriptsWebpanelappPortletKeys.SAVE_GS_ACTION_COMMAND %>" var="saveURL"/>
@@ -14,6 +25,6 @@
 	<aui:input name="title" value='<%= (script!= null)?script.getTitle():"" %>' />
 	<aui:input name="description" value='<%= (script!= null)?script.getDescription():"" %>' />
 	<aui:input name="content" value='<%= (script!= null)?script.getContent():"" %>' />
-	
+
 	<aui:button name="submit" value="save" type="submit" />
 </aui:form>
