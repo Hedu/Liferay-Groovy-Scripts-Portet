@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 
 @Component(immediate = true, service = Indexer.class)
 public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
-
 	
 	public static final String CLASS_NAME = GroovyScript.class.getName();
 	private static final Log _log = LogFactoryUtil.getLog(GroovyScriptIndexer.class);
@@ -57,6 +56,9 @@ public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
 		
 		if (latestScript != null) {
 			doReindex(latestScript);
+		}
+		if (_log.isDebugEnabled()) {
+			_log.debug("Deleted script: " + groovyScript.getGroovyScriptId());
 		}
 	}
 
@@ -124,6 +126,9 @@ public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
 			IndexWriterHelperUtil.updateDocument(
 				getSearchEngineId(), groovyScript.getCompanyId(), document,
 				isCommitImmediately());
+		}
+		if (_log.isDebugEnabled()) {
+			_log.debug("Reindexed script: " + groovyScript);
 		}
 		
 	}
