@@ -17,8 +17,6 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.ParseException;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
@@ -36,20 +34,12 @@ public class SearchUtil {
 		SearchContext searchContext =
 				SearchContextFactory.getInstance(httpRequest); 
 
+		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, Sort.LONG_TYPE, true));
 		searchContext.setStart(start);
 		searchContext.setEnd(end);
-		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, Sort.LONG_TYPE, true));
-
-		Indexer<?> indexer = IndexerRegistryUtil.getIndexer(GroovyScript.class);
-
-		try {
-			BooleanQuery fullQuery = RepositorySearchQueryBuilderUtil.getFullQuery(searchContext);
-			BooleanQuery searchQuery = RepositorySearchQueryBuilderUtil.getFullQuery(searchContext);
 		
-			searchQuery.addRequiredTerm(Field.ENTRY_CLASS_NAME, GroovyScript.class.getName()); 
-			searchQuery.addRequiredTerm("latest", "true");
-			fullQuery.add(searchQuery, BooleanClauseOccur.MUST);
-		 
+		BooleanQuery fullQuery = prepareListQuery(searchContext);
+		try {
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, fullQuery);
 			
 			Document[] docs = hits.getDocs();
@@ -61,23 +51,57 @@ public class SearchUtil {
 					try {
 						GroovyScript groovyScript = GroovyScriptLocalServiceUtil.getGroovyScript(groovyScriptId);
 						scripts.add(groovyScript);
-					}
-					catch (PortalException pe) {
-						if (_log.isInfoEnabled()) {
-							_log.info("No Groovy Script exists with groovyScriptId " + groovyScriptId, pe);
+						if (_log.isDebugEnabled()) {
+							_log.debug("Script: " + groovyScript);
 						}
 					}
-					
+					catch (PortalException pe) {
+						_log.error("No Groovy Script exists with groovyScriptId " + groovyScriptId, pe);
+					}
 				}
 			}
 			return scripts;
 		}
 		catch (SearchException se) {
-		    _log.error("Error searching on indexes: ", se);
-		} catch (ParseException e) {
-			_log.error("Error creating query: ", e);
+			_log.error("Problem searching for scripts", se);
 		}
 		return null;
+	}
+
+	public static int getGroovyScriptsCount(HttpServletRequest httpRequest) {
+		SearchContext searchContext =
+				SearchContextFactory.getInstance(httpRequest);
 		
+		BooleanQuery fullQuery = prepareListQuery(searchContext);
+		try {
+			int count = (int)IndexSearcherHelperUtil.searchCount(searchContext, fullQuery);
+			if (_log.isDebugEnabled()) {
+				_log.debug("Number of scripts: " + count);
+			}
+			return count;
+		}
+		catch (SearchException se) {
+			_log.error("Problem searching for scripts", se);
+		}
+		return 0;
+	}
+
+	private static BooleanQuery prepareListQuery(SearchContext searchContext) {
+
+		BooleanQuery fullQuery = null;
+		try {
+			fullQuery = RepositorySearchQueryBuilderUtil.getFullQuery(searchContext);
+			BooleanQuery searchQuery = RepositorySearchQueryBuilderUtil.getFullQuery(searchContext);
+
+			searchQuery.addRequiredTerm(Field.ENTRY_CLASS_NAME, GroovyScript.class.getName());
+			searchQuery.addRequiredTerm("latest", "true");
+			fullQuery.add(searchQuery, BooleanClauseOccur.MUST);
+		}
+		catch (ParseException pe) {
+			_log.error("Problem creating the query", pe);
+		} catch (SearchException se) {
+			_log.error("Problem creating the query", se);
+		}
+		return fullQuery;
 	}
 }
