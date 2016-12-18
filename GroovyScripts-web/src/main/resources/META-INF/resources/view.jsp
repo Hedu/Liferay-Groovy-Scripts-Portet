@@ -1,6 +1,12 @@
 <%@ include file="/init.jsp" %>
 <%@ page import="com.hedu.groovy.scripts.portlet.service.GroovyScriptLocalServiceUtil"  %>
 <%@ page import="com.hedu.groovy.scripts.portlet.search.SearchUtil"  %>
+
+<%
+PortletURL portletURL = renderResponse.createRenderURL();
+portletURL.setParameter("mvcPath", "/view.jsp");
+String portletURLString = portletURL.toString();
+ %>
 <p>
 	<b><liferay-ui:message key="groovyscripts_web_GroovyscriptsWebmvcportlet.caption"/></b>
 </p>
@@ -22,6 +28,7 @@
 
 <liferay-portlet:renderURL varImpl="editEntryURL">
     <portlet:param name="mvcRenderCommandName" value="<%=GroovyscriptsWebpanelappPortletKeys.EDIT_GS_RENDER_COMMAND %>" />
+    <portlet:param name="redirect" value="<%=portletURLString %>"/>
     <%-- portlet:param name="entryId" value="<%= String.valueOf(entry.getEntryId()) %>" /--%>
 </liferay-portlet:renderURL>
 
