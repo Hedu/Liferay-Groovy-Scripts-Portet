@@ -2,6 +2,7 @@ package com.hedu.groovy.scripts.portlet.search;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -16,11 +17,16 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BaseIndexer;
+import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.Query;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Summary;
+import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.util.GetterUtil;
 
 @Component(immediate = true, service = Indexer.class)
@@ -45,6 +51,42 @@ public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
 	@Override
 	public String getClassName() {
 		return CLASS_NAME;
+	}
+
+	@Override
+	public BooleanQuery getFullQuery(SearchContext searchContext)
+		throws SearchException {
+
+		try {
+			searchContext.setSearchEngineId(getSearchEngineId());
+
+			resetFullQuery(searchContext);
+
+			searchContext.setEntryClassNames(new String[] {GroovyScript.class.getName()});
+
+			BooleanFilter fullQueryBooleanFilter = new BooleanFilter();
+
+			//addSearchAssetCategoryIds(fullQueryBooleanFilter, searchContext);
+			//addSearchAssetTagNames(fullQueryBooleanFilter, searchContext);
+			addSearchEntryClassNames(fullQueryBooleanFilter, searchContext);
+			//addSearchFolderId(fullQueryBooleanFilter, searchContext);
+			//addSearchGroupId(fullQueryBooleanFilter, searchContext);
+			//addSearchLayout(fullQueryBooleanFilter, searchContext);
+			//addSearchUserId(fullQueryBooleanFilter, searchContext);
+
+			BooleanQuery fullQuery = createFullQuery(
+				fullQueryBooleanFilter, searchContext);
+
+			fullQuery.setQueryConfig(searchContext.getQueryConfig());
+
+			return fullQuery;
+		}
+		catch (SearchException se) {
+			throw se;
+		}
+		catch (Exception e) {
+			throw new SearchException(e);
+		}
 	}
 
 	@Override
@@ -132,7 +174,24 @@ public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
 		}
 		
 	}
-	
+
+	@Override
+	protected Map<String, Query> addSearchKeywords(
+			BooleanQuery searchQuery, SearchContext searchContext)
+		throws Exception {
+
+		Map<String, Query> searchKeyWords = super.addSearchKeywords(searchQuery, searchContext);
+
+		if (searchKeyWords.isEmpty()) {
+			return searchKeyWords;
+		}
+		String keywords = searchContext.getKeywords();
+
+		String[] fields = {"title", "content", "description"};
+		return searchQuery.addTerms(
+				fields, keywords, searchContext.isLike());
+	}
+
 	protected void reindexGroovyScripts(long companyId) throws PortalException {
 		final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
 				GroovyScriptLocalServiceUtil.getIndexableActionableDynamicQuery();
