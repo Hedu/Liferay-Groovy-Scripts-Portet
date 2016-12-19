@@ -17,6 +17,8 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.ParseException;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
@@ -88,10 +90,12 @@ public class SearchUtil {
 
 		BooleanQuery fullQuery = null;
 		try {
-			fullQuery = RepositorySearchQueryBuilderUtil.getFullQuery(searchContext);
-			BooleanQuery searchQuery = RepositorySearchQueryBuilderUtil.getFullQuery(searchContext);
 
-			searchQuery.addRequiredTerm(Field.ENTRY_CLASS_NAME, GroovyScript.class.getName());
+			Indexer<?> indexer = IndexerRegistryUtil.getIndexer(GroovyScript.class);
+
+			fullQuery = indexer.getFullQuery(searchContext);
+			BooleanQuery searchQuery = indexer.getFullQuery(searchContext);
+
 			searchQuery.addRequiredTerm("latest", "true");
 
 			fullQuery.add(searchQuery, BooleanClauseOccur.MUST);
@@ -117,6 +121,7 @@ public class SearchUtil {
 	private static SearchContext prepareSearchContext(HttpServletRequest httpRequest) {
 		SearchContext searchContext =
 				SearchContextFactory.getInstance(httpRequest);
+
 		String keywords = ParamUtil.get(httpRequest, "keywords", "");
 		if (!"".equals(keywords)) {
 			searchContext.setKeywords(keywords);
