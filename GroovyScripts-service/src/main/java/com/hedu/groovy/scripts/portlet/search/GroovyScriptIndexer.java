@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 @Component(immediate = true, service = Indexer.class)
 public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
@@ -174,6 +175,12 @@ public class GroovyScriptIndexer extends BaseIndexer<GroovyScript> {
 		}
 		
 	}
+
+	@Override
+	public void postProcessSearchQuery(
+			BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter,
+			SearchContext searchContext)
+		throws Exception {}
 
 	@Override
 	protected Map<String, Query> addSearchKeywords(
