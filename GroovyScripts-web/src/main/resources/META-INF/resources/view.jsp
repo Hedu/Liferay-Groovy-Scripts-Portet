@@ -14,7 +14,7 @@
 	</aui:nav-bar-search>
 </aui:nav-bar>
 
-<liferay-ui:search-container delta="2" headerNames="title, description, version" emptyResultsMessage="no-scripts-saved" iteratorURL="<%=searchURL%>" total="<%=SearchUtil.getGroovyScriptsCount(request) %>">
+<liferay-ui:search-container delta="10" headerNames="title, description, version" emptyResultsMessage="no-scripts-saved" iteratorURL="<%=searchURL%>" total="<%=SearchUtil.getGroovyScriptsCount(request) %>">
 	<liferay-ui:search-container-results  results="<%= SearchUtil.getLatest(request, searchContainer.getStart(), searchContainer.getEnd()) %>" />
 	<liferay-ui:search-container-row className="com.hedu.groovy.scripts.portlet.model.GroovyScript" keyProperty="groovyScriptId" modelVar="script">
 		<liferay-ui:search-container-column-text name="Title" value="${script.title}" />
